@@ -99,4 +99,119 @@ Power BI · DAX · Data Modeling · Azure Databricks · PySpark · Delta Lake ·
 
 Author
 
+
+
+--------------------------------------------------------------------------------------
+
+
+
+
+A data analytics project using Power BI and Azure Databricks, built on real Indian banking and UPI data.
+
+What is this project about?
+
+You know how sometimes a UPI payment just... fails? Sometimes it's your fault (wrong PIN, not enough balance). But sometimes it's the bank's own system messing up.
+
+I got curious: do banks that are struggling financially (lots of bad loans) also have shakier UPI systems? Like, does a bank's money trouble show up in how often your payment fails?
+
+So I took real UPI transaction data (from NPCI) and real bank financial data (from RBI) and tried to find out.
+
+Status
+
+🚧 Still building this. Right now I'm setting up the data pipeline. Check the to-do list below to see where I'm at.
+
+What I'm actually trying to find out
+
+
+Which banks are best/worst at processing UPI payments successfully?
+Which big banks (the ones lots of people use) also have bad failure rates? That matters more than a small bank messing up.
+Which banks have the most bad loans (financially weakest)?
+When a payment fails, is it usually the bank's fault (technical issue) or the user's fault (wrong PIN, low balance)?
+The main question: do weaker banks (more bad loans) also fail more UPI payments? And which banks break that pattern?
+
+
+Being honest: I only have one year of data right now, so this shows a snapshot, not a trend over time. And even if I find a pattern, it doesn't prove one thing causes the other — just that they show up together.
+
+Where the data comes from
+
+SourceWhat it isHow oftenWhere to get itNPCIBank-wise UPI performance — how many payments succeeded, failed, whyMonthlynpci.org.in/product/ecosystem-statistics/upiRBIBad loans (NPAs) for each bankYearly (FY2024-25)data.rbi.org.in/DBIERBITotal loans given out by each bank (needed to calculate the bad-loan %)Yearly (FY2024-25)data.rbi.org.in/DBIE
+
+Everything here is free, public data. Nothing paid or private.
+
+How the data flows
+
+UPI data (monthly)  ─┐
+Bad loan data         ├─→  Raw data in  →  Clean it up  →  Combine into useful tables  →  Power BI dashboard
+Total loans data     ─┘
+
+In simple terms:
+
+
+Raw: dump the files in exactly as downloaded, don't touch anything yet
+Clean: fix messy bank names, fix number formats, remove junk
+Combine: turn 12 months of UPI data into one row per bank, calculate each bank's bad-loan percentage, then join everything together into one table per bank
+Dashboard: connect that final table to Power BI and build the actual charts
+
+
+Tools I'm using
+
+
+Azure Databricks — this is where the cleaning and combining happens (using Python/PySpark)
+Azure Data Lake Storage — where the files actually live
+Power BI — where the dashboard gets built
+Python — for cleaning up messy data (like fixing bank names)
+SQL — for the actual calculations and joins
+GitHub — to keep track of everything as I build it
+
+
+How the project is organized
+
+├── data/
+│   ├── raw/              # files exactly as downloaded
+│   └── processed/        # cleaned versions
+├── notebooks/
+│   ├── 01_bronze_ingest.py     # step 1: load raw data
+│   ├── 02_silver_clean.py      # step 2: clean it
+│   └── 03_gold_transform.py    # step 3: combine and calculate
+├── powerbi/
+│   └── bankpulse_dashboard.pbix
+├── docs/
+│   └── data_dictionary.md
+└── README.md
+
+What I found (so far)
+
+Nothing yet — I'll fill this in once the dashboard is actually done. Not writing a "finding" before I've actually found something.
+
+To-do list
+
+
+ Figure out what data I need and where to get it
+ Decide what questions I'm actually answering
+ Load the raw files into Databricks
+ Clean up bank names so everything matches across files
+ Calculate each bank's bad-loan percentage
+ Combine everything into one final table
+ Connect Power BI to Databricks
+ Build the dashboard
+ Write up what I actually found
+ Maybe later: pull 2-3 more years of data to see if the pattern holds over time
+
+
+Things I'm being upfront about
+
+
+Only one year of data right now, so this isn't a trend, it's a snapshot
+I matched bank names across files manually, not with some official master list — so there's a small chance of mismatches
+If I find a pattern, it just means two things happen together, not that one causes the other
+
+
+Skills this project shows
+
+Power BI, DAX, data modeling, Azure Databricks, PySpark, Delta Lake, ETL pipelines, SQL, banking/fintech data analysis
+
+About me
+
+(name, LinkedIn, portfolio link)
+
 (Your name · LinkedIn · Portfolio link)
